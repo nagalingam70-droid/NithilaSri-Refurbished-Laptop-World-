@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NithilaSri – Refurbished Laptops</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; color: #1a1a2e; background: #f5f7fa; }
+
+    nav {
+      background: #1a1a2e;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { color: #00d4aa; font-size: 1.6rem; font-weight: 700; letter-spacing: 1px; }
+    .nav-links a { color: #ccc; text-decoration: none; margin-left: 24px; font-size: 0.95rem; transition: color 0.2s; }
+    .nav-links a:hover { color: #00d4aa; }
+    .cart-btn {
+      background: #00d4aa; color: #1a1a2e; border: none;
+      padding: 8px 20px; border-radius: 20px; cursor: pointer;
+      font-weight: 600; font-size: 0.9rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white; text-align: center; padding: 80px 20px;
+    }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 16px; }
+    .hero h1 span { color: #00d4aa; }
+    .hero p { font-size: 1.1rem; color: #aaa; max-width: 550px; margin: 0 auto 32px; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; }
+    .btn-primary {
+      background: #00d4aa; color: #1a1a2e; padding: 14px 32px;
+      border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem;
+    }
+    .btn-outline {
+      border: 2px solid #00d4aa; color: #00d4aa; padding: 14px 32px;
+      border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem;
+    }
+
+    .trust-bar {
+      background: #fff; display: flex; justify-content: center;
+      gap: 48px; padding: 20px 40px; flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555; }
+    .trust-item span:first-child { font-size: 1.4rem; }
+
+    .section-title { text-align: center; padding: 56px 20px 8px; }
+    .section-title h2 { font-size: 2rem; color: #1a1a2e; }
+    .section-title p { color: #777; margin-top: 8px; }
+    .divider { width: 60px; height: 4px; background: #00d4aa; margin: 12px auto 0; border-radius: 2px; }
+
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px; padding: 32px 40px 56px; max-width: 1200px; margin: 0 auto;
+    }
+    .product-card {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.13); }
+    .product-img {
+      background: linear-gradient(135deg, #e8f4fd, #d1eaff);
+      display: flex; align-items: center; justify-content: center;
+      height: 180px; font-size: 4rem;
+    }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: 0.75rem; font-weight: 600; margin: 12px 16px 0;
+    }
+    .badge.excellent { background: #d4f5e9; color: #0a7c4a; }
+    .badge.good { background: #fff3cd; color: #856404; }
+    .badge.fair { background: #fde8d8; color: #8a3a00; }
+    .product-info { padding: 8px 16px 16px; }
+    .product-info h3 { font-size: 1.05rem; margin-bottom: 6px; }
+    .specs { list-style: none; font-size: 0.82rem; color: #666; margin-bottom: 12px; line-height: 1.8; }
+    .specs li::before { content: "✓ "; color: #00d4aa; }
+    .price-row { display: flex; align-items: center; justify-content: space-between; }
+    .price { font-size: 1.4rem; font-weight: 700; color: #1a1a2e; }
+    .old-price { font-size: 0.85rem; color: #999; text-decoration: line-through; margin-left: 6px; }
+    .add-cart {
+      background: #1a1a2e; color: #fff; border: none; padding: 8px 16px;
+      border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .add-cart:hover { background: #00d4aa; color: #1a1a2e; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff; border-radius: 20px; padding: 32px;
+      width: 90%; max-width: 480px; max-height: 80vh; overflow-y: auto;
+    }
+    .modal h2 { margin-bottom: 20px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .cart-item-name { font-weight: 600; font-size: 0.95rem; }
+    .cart-item-price { color: #00d4aa; font-weight: 700; }
+    .remove-item { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1.2rem; }
+    .cart-total { text-align: right; font-size: 1.2rem; font-weight: 700; margin-top: 16px; }
+    .checkout-btn {
+      width: 100%; background: #00d4aa; color: #1a1a2e;
+      border: none; padding: 14px; border-radius: 30px; font-size: 1rem;
+      font-weight: 700; cursor: pointer; margin-top: 16px;
+    }
+    .close-modal { float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    .empty-cart { text-align: center; color: #aaa; padding: 24px 0; }
+
+    .reviews-section { background: #1a1a2e; padding: 56px 40px; }
+    .reviews-section .section-title h2 { color: #fff; }
+    .reviews-section .section-title p { color: #aaa; }
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px; max-width: 1100px; margin: 32px auto 0;
+    }
+    .review-card { background: #16213e; border-radius: 14px; padding: 24px; }
+    .stars { color: #f4c430; font-size: 1.1rem; margin-bottom: 10px; }
+    .review-text { color: #ccc; font-size: 0.92rem; line-height: 1.6; margin-bottom: 14px; }
+    .reviewer { display: flex; align-items: center; gap: 10px; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: #00d4aa; display: flex; align-items: center;
+      justify-content: center; font-weight: 700; color: #1a1a2e;
+    }
+    .reviewer-info .name { color: #fff; font-weight: 600; font-size: 0.88rem; }
+    .reviewer-info .date { color: #666; font-size: 0.78rem; }
+
+    .tradein-section { background: #f5f7fa; padding: 56px 40px; }
+    .form-container {
+      max-width: 640px; margin: 32px auto 0;
+      background: #fff; border-radius: 20px; padding: 40px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 16px; }
+    .form-group label { font-size: 0.88rem; font-weight: 600; color: #555; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px 14px; border: 1.5px solid #e0e0e0; border-radius: 10px;
+      font-size: 0.95rem; outline: none; transition: border-color 0.2s; font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #00d4aa; }
+    .submit-btn {
+      width: 100%; background: #1a1a2e; color: #fff;
+      border: none; padding: 14px; border-radius: 30px;
+      font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;
+    }
+    .submit-btn:hover { background: #00d4aa; color: #1a1a2e; }
+    .success-msg { display: none; text-align: center; color: #0a7c4a; font-weight: 600; padding: 12px; }
+
+    footer {
+      background: #1a1a2e; color: #aaa; text-align: center;
+      padding: 32px 20px; font-size: 0.88rem;
+    }
+    footer span { color: #00d4aa; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.9rem; }
+      .products-grid { padding: 24px 16px; }
+      .form-row { grid-template-columns: 1fr; }
+      .trust-bar { gap: 20px; }
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">💻 NithilaSri</div>
+  <div class="nav-links">
+    <a href="#products">Laptops</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#tradein">Trade-In</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="cart-btn" onclick="openCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Quality Laptops.<br><span>Honest Prices.</span></h1>
+  <p>Every laptop is professionally tested, cleaned, and graded before it reaches you. Backed by a 12-month warranty.</p>
+  <div class="hero-btns">
+    <a href="#products" class="btn-primary">Shop Now</a>
+    <a href="#tradein" class="btn-outline">Trade In Your Laptop</a>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span>✅</span> Fully Tested & Certified</div>
+  <div class="trust-item"><span>🛡️</span> 12-Month Warranty</div>
+  <div class="trust-item"><span>🔄</span> 30-Day Returns</div>
+  <div class="trust-item"><span>🚚</span> Free Delivery Across India</div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section-title" id="products">
+  <h2>Our Laptops</h2>
+  <p>Graded, tested, and ready to go.</p>
+  <div class="divider"></div>
+</div>
+<div class="products-grid" id="product-grid"></div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cart-modal">
+  <div class="modal">
+    <button class="close-modal" onclick="closeCart()">✕</button>
+    <h2>🛒 Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total"></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-title">
+    <h2>Customer Reviews</h2>
+    <p>What our buyers say about us.</p>
+    <div class="divider"></div>
+  </div>
+  <div class="reviews-grid" id="reviews-grid"></div>
+</section>
+
+<!-- TRADE-IN FORM -->
+<section class="tradein-section" id="tradein">
+  <div class="section-title">
+    <h2>Trade In Your Laptop</h2>
+    <p>Get a quote for your old laptop. We'll make you a fair offer.</p>
+    <div class="divider"></div>
+  </div>
+  <div class="form-container">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Nithila Sri" id="f-name"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@email.com" id="f-email"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Laptop Brand</label>
+        <select id="f-brand">
+          <option value="">Select brand</option>
+          <option>Apple</option><option>Dell</option><option>HP</option>
+          <option>Lenovo</option><option>Asus</option><option>Acer</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Model / Year</label>
+        <input type="text" placeholder="e.g. Dell Inspiron 2021" id="f-model"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Condition</label>
+        <select id="f-condition">
+          <option value="">Select condition</option>
+          <option>Excellent – like new</option>
+          <option>Good – minor scratches</option>
+          <option>Fair – visible wear</option>
+          <option>Poor – needs repair</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 43210" id="f-phone"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Additional Details</label>
+      <textarea rows="3" placeholder="Specs, accessories included, any faults..." id="f-details"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitTradeIn()">Submit Trade-In Request</button>
+    <div class="success-msg" id="success-msg">✅ Thank you! We'll be in touch within 24 hours with your quote.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <p>📧 nithilasri@refurbishedlaptop.co.in &nbsp;|&nbsp; 📞 +91 98765 43210</p>
+  <br>
+  <p>&copy; 2026 <span>NithilaSri Refurbished Laptops</span>. All rights reserved. Refurbished with care.</p>
+</footer>
+
+<script>
+  const products = [
+    { id:1, emoji:"💻", name:"Dell XPS 13", badge:"excellent", badgeLabel:"Excellent",
+      specs:["Intel Core i7-1165G7","16GB RAM","512GB SSD","13.3\" FHD Display","Windows 11 Pro"],
+      price:62999, oldPrice:89999 },
+    { id:2, emoji:"🖥️", name:"HP EliteBook 840", badge:"good", badgeLabel:"Good",
+      specs:["Intel Core i5-10310U","8GB RAM","256GB SSD","14\" FHD Display","Windows 11 Home"],
+      price:38999, oldPrice:54999 },
+    { id:3, emoji:"💼", name:"Lenovo ThinkPad X1", badge:"excellent", badgeLabel:"Excellent",
+      specs:["Intel Core i7-10510U","16GB RAM","512GB SSD","14\" IPS Display","Windows 11 Pro"],
+      price:54999, oldPrice:79999 },
+    { id:4, emoji:"🍎", name:"MacBook Pro 13\"", badge:"good", badgeLabel:"Good",
+      specs:["Apple M1 Chip","8GB RAM","256GB SSD","13.3\" Retina Display","macOS Ventura"],
+      price:84999, oldPrice:109999 },
+    { id:5, emoji:"⚡", name:"Asus ZenBook 14", badge:"fair", badgeLabel:"Fair",
+      specs:["AMD Ryzen 5 5500U","8GB RAM","512GB SSD","14\" FHD Display","Windows 11 Home"],
+      price:28999, oldPrice:44999 },
+    { id:6, emoji:"🔵", name:"Acer Swift 3", badge:"excellent", badgeLabel:"Excellent",
+      specs:["Intel Core i5-1135G7","8GB RAM","256GB SSD","14\" IPS Display","Windows 11 Home"],
+      price:32999, oldPrice:47999 },
+  ];
+
+  const reviews = [
+    { stars:5, text:"Absolutely brilliant service. My Dell XPS arrived perfectly packaged and runs like new. Couldn't be happier with the purchase.", name:"Priya R.", date:"February 2026", initial:"P" },
+    { stars:5, text:"Great value for money. The ThinkPad I bought has zero issues and the 12-month warranty gave me real peace of mind.", name:"Arjun M.", date:"January 2026", initial:"A" },
+    { stars:4, text:"Fast delivery and the laptop was exactly as described. The trade-in process for my old laptop was also very smooth.", name:"Sneha K.", date:"March 2026", initial:"S" },
+    { stars:5, text:"I was sceptical about buying refurbished, but NithilaSri completely changed my mind. Excellent quality and honest grading.", name:"Vikram T.", date:"February 2026", initial:"V" },
+  ];
+
+  let cart = [];
+
+  function renderProducts() {
+    const grid = document.getElementById("product-grid");
+    grid.innerHTML = products.map(p => `
+      <div class="product-card">
+        <div class="product-img">${p.emoji}</div>
+        <span class="badge ${p.badge}">${p.badgeLabel}</span>
+        <div class="product-info">
+          <h3>${p.name}</h3>
+          <ul class="specs">${p.specs.map(s => `<li>${s}</li>`).join("")}</ul>
+          <div class="price-row">
+            <div>
+              <span class="price">₹${p.price.toLocaleString("en-IN")}</span>
+              <span class="old-price">₹${p.oldPrice.toLocaleString("en-IN")}</span>
+            </div>
+            <button class="add-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function renderReviews() {
+    document.getElementById("reviews-grid").innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5 - r.stars)}</div>
+        <p class="review-text">"${r.text}"</p>
+        <div class="reviewer">
+          <div class="avatar">${r.initial}</div>
+          <div class="reviewer-info">
+            <div class="name">${r.name}</div>
+            <div class="date">${r.date}</div>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    document.getElementById("cart-count").textContent = cart.length;
+  }
+
+  function openCart() {
+    const modal = document.getElementById("cart-modal");
+    modal.classList.add("active");
+    renderCart();
+  }
+
+  function closeCart() {
+    document.getElementById("cart-modal").classList.remove("active");
+  }
+
+  function renderCart() {
+    const container = document.getElementById("cart-items");
+    const totalEl = document.getElementById("cart-total");
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="empty-cart">Your cart is empty.</div>';
+      totalEl.innerHTML = "";
+      return;
+    }
+    container.innerHTML = cart.map((item, i) => `
+      <div class="cart-item">
+        <span class="cart-item-name">${item.emoji} ${item.name}</span>
+        <span class="cart-item-price">₹${item.price.toLocaleString("en-IN")}</span>
+        <button class="remove-item" onclick="removeFromCart(${i})">✕</button>
+      </div>
+    `).join("");
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    totalEl.innerHTML = `Total: ₹${total.toLocaleString("en-IN")}`;
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById("cart-count").textContent = cart.length;
+    renderCart();
+  }
+
+  function checkout() {
+    alert("Thank you for your order! Our team will contact you at nithilasri@refurbishedlaptop.co.in to confirm your purchase.");
+    cart = [];
+    document.getElementById("cart-count").textContent = 0;
+    closeCart();
+  }
+
+  function submitTradeIn() {
+    const name = document.getElementById("f-name").value;
+    const email = document.getElementById("f-email").value;
+    const brand = document.getElementById("f-brand").value;
+    const condition = document.getElementById("f-condition").value;
+    if (!name || !email || !brand || !condition) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    document.getElementById("success-msg").style.display = "block";
+    ["f-name","f-email","f-phone","f-model","f-details"].forEach(id => document.getElementById(id).value = "");
+    document.getElementById("f-brand").value = "";
+    document.getElementById("f-condition").value = "";
+  }
+
+  renderProducts();
+  renderReviews();
+</script>
+</body>
+</html>
